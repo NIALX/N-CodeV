@@ -21,13 +21,11 @@ trait Language {
 }
 
 
-struct PythonCodeParser {
-	code:String,
-}
+
 
 impl Language for PythonCodeParser {
 
-		fn get_functions(code: &String) -> Vec<String>{
+	fn get_functions(code: &String) -> Vec<String>{
 		unimplemented!();
 	}
 
@@ -35,6 +33,8 @@ impl Language for PythonCodeParser {
 		unimplemented!();
 	}
 }
+
+
 impl OOP for PythonCodeParser {
 	fn get_classes(code: &String) -> Vec<String /* later it will be "class" struct*/>{
 		unimplemented!();
@@ -43,6 +43,11 @@ impl OOP for PythonCodeParser {
 	fn get_objects(code: &String) -> Vec<String> {
 		unimplemented!()
 	}
+}
+
+#[derive(Debug)]
+struct PythonCodeParser {
+	code: String,
 }
 
 
@@ -55,7 +60,6 @@ struct File {
 
 #[derive(Debug)]
 struct CodeStruct {
-	classes: Vec<String>,
 	functions: Vec<String>,
 	variables: Vec<String>,
 }
@@ -70,16 +74,15 @@ impl CodeStruct {
 
 
 //TODO: abstract that code
-fn gen_code_structure(code: String) -> CodeStruct{
-	let classes = get_classes(&code);
-	let functions = get_functions(&code);
-	let variables = get_variables(&code);
+fn gen_code_structure<T: Language>(language_parser: T) -> CodeStruct{
+	parser = language_parser::new();
+	let functions = parser.get_functions();
+	let variables = parser.get_variables();
 	//TODO: get namespaces and link the related code
 	//TODO: add more python tokens
 	
 
 	CodeStruct {
-		classes: classes,
 		functions: functions,
 		variables: variables,
 	}
@@ -87,5 +90,5 @@ fn gen_code_structure(code: String) -> CodeStruct{
 
 
 fn main() {
-    println!("Nothing implemented yet :)");
+	println!("Nothing implemented yet :)");
 }
